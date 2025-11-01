@@ -39,7 +39,7 @@ public class InputManager {
         return parsePrice(text);
     }
 
-    public List<Integer> parseWinningNumbers(String text) {
+    public Lotto parseWinningNumbers(String text) {
         String[] parts = text.split(",");
         List<Integer> numbers = new ArrayList<Integer>();
         for (String part : parts) {
@@ -47,10 +47,11 @@ public class InputManager {
             inspectNumberRange(n);
             numbers.add(n);
         }
-        return numbers;
+
+        return new Lotto(numbers);
     }
 
-    public List<Integer> getWinningNumbers() {
+    public Lotto getWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String text = Console.readLine();
         return parseWinningNumbers(text);

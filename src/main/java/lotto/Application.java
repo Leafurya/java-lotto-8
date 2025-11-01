@@ -1,13 +1,11 @@
 package lotto;
 
-import java.util.List;
-
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         InputManager inputManager = new InputManager();
         LottoManager lottoManager;
-        List<Integer> winningNumbers;
+        Lotto winningNumbers;
         int bonusNumber;
 
         while (true) {
@@ -41,7 +39,7 @@ public class Application {
             }
         }
 
-        lottoManager.compare(winningNumbers, bonusNumber);
+        lottoManager.compare(winningNumbers.getNumbers(), bonusNumber);
         System.out.println(lottoManager.getLottoResult());
     }
 }
