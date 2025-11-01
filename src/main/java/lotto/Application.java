@@ -1,13 +1,22 @@
 package lotto;
 
 public class Application {
+    private static final InputManager inputManager = new InputManager();
+    private static LottoManager lottoManager;
+    private static Lotto winningNumbers;
+    private static int bonusNumber;
+
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        InputManager inputManager = new InputManager();
-        LottoManager lottoManager;
-        Lotto winningNumbers;
-        int bonusNumber;
+        getPrice();
+        getWinningNumbers();
+        getBonusNumber();
 
+        lottoManager.compare(winningNumbers.getNumbers(), bonusNumber);
+        System.out.println(lottoManager.getLottoResult());
+    }
+
+    private static void getPrice() {
         while (true) {
             try {
                 int price = inputManager.getPrice();
@@ -18,7 +27,9 @@ public class Application {
                 System.out.println(e.getMessage());
             }
         }
+    }
 
+    private static void getWinningNumbers() {
         while (true) {
             try {
                 winningNumbers = inputManager.getWinningNumbers();
@@ -28,7 +39,9 @@ public class Application {
                 System.out.println(e.getMessage());
             }
         }
+    }
 
+    private static void getBonusNumber() {
         while (true) {
             try {
                 bonusNumber = inputManager.getBonusNumber();
@@ -38,8 +51,5 @@ public class Application {
                 System.out.println(e.getMessage());
             }
         }
-
-        lottoManager.compare(winningNumbers.getNumbers(), bonusNumber);
-        System.out.println(lottoManager.getLottoResult());
     }
 }

@@ -49,11 +49,7 @@ public class LottoManager {
     public void compare(List<Integer> winningNumbers, int bonusNumber) {
         for (Lotto lotto : lottos) {
             LottoRank rank = lotto.compare(winningNumbers, bonusNumber);
-            Integer count = Objects.requireNonNullElse(winningStat.get(rank), 0);
-            if (count == null) {
-                winningStat.put(rank, 1);
-                continue;
-            }
+            int count = Objects.requireNonNullElse(winningStat.get(rank), 0);
             winningStat.put(rank, count + 1);
         }
     }
@@ -68,17 +64,19 @@ public class LottoManager {
     }
 
     public String getLottoResult() {
-        String stat = "";
+        String stat = "당첨 통계\n---\n";
 
-        System.out.println("당첨 통계\n---");
         for (LottoRank rank : LottoRank.values()) {
             if (rank == LottoRank.MISS) {
                 continue;
             }
+
             String line = rank.getMatchCount() + "개 일치";
+
             if (rank.hasBonus()) {
                 line += ", 보너스 볼 일치";
             }
+
             line += " (" + String.format("%,d", rank.getPrize()) + "원) - " + Objects.requireNonNullElse(
                     winningStat.get(rank), 0) + "개\n";
             stat += line;
