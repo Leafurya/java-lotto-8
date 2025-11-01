@@ -2,6 +2,7 @@ package lotto;
 
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -10,7 +11,7 @@ public class LottoManager {
     private int price = 0;
     private int nofLotto = 0; // number of lotto
     private ArrayList<Lotto> lottos = new ArrayList<Lotto>();
-    private Map<LottoRank, Integer> winningStat;
+    private Map<LottoRank, Integer> winningStat = new HashMap<LottoRank, Integer>();
 
     public LottoManager(int price) {
         this.price = price;
@@ -48,7 +49,7 @@ public class LottoManager {
     public void compare(List<Integer> winningNumbers, int bonusNumber) {
         for (Lotto lotto : lottos) {
             LottoRank rank = lotto.compare(winningNumbers, bonusNumber);
-            Integer count = winningStat.get(rank);
+            Integer count = Objects.requireNonNullElse(winningStat.get(rank), 0);
             if (count == null) {
                 winningStat.put(rank, 1);
                 continue;
@@ -61,12 +62,12 @@ public class LottoManager {
         double totalReturn = 0;
 
         for (LottoRank rank : winningStat.keySet()) {
-            totalReturn += rank.getPrize() * winningStat.get(rank);
+            totalReturn += rank.getPrize() * Objects.requireNonNullElse(winningStat.get(rank), 0);
         }
         return totalReturn / price * 100;
     }
 
-    public String getWinningStat() {
+    public String getLottoResult() {
         String stat = "";
 
         System.out.println("당첨 통계\n---");
@@ -78,7 +79,8 @@ public class LottoManager {
             if (rank.hasBonus()) {
                 line += ", 보너스 볼 일치";
             }
-            line += " (" + rank.getPrize() + "원) - " + Objects.requireNonNullElse(winningStat.get(rank), 0) + "개\n";
+            line += " (" + String.format("%,d", rank.getPrize()) + "원) - " + Objects.requireNonNullElse(
+                    winningStat.get(rank), 0) + "개\n";
             stat += line;
         }
         stat += "총 수익률은 " + getRateOfReturn() + "%입니다.";
