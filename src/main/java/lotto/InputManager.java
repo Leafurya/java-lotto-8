@@ -10,30 +10,42 @@ public class InputManager {
         try {
             number = Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[Error] 숫자로 변환할 수 없습니다. 숫자만 입력해 주세요.");
+            throw new IllegalArgumentException("[ERROR] 숫자로 변환할 수 없습니다. 숫자만 입력해 주세요.");
         }
         return number;
     }
 
-    public int inspectPrice(String text) {
-        int price = parseInt(text);
-        if (price % 1000 != 0) {
-            throw new IllegalArgumentException("[Error] 1000원 단위로 입력해 주세요.");
+    private void inspectNumberRange(int n) {
+        if (n < 1 || n > 45) {
+            throw new IllegalArgumentException("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
         }
+    }
+
+    private void inspectNumberUnit(int n) {
+        if (n % 1000 != 0) {
+            throw new IllegalArgumentException("[ERROR] 1000원 단위로 입력해 주세요.");
+        }
+    }
+
+    public int parsePrice(String text) {
+        int price = parseInt(text);
+        inspectNumberUnit(price);
         return price;
     }
 
     public int getPrice() {
         System.out.println("구입금액을 입력해 주세요.");
         String text = Console.readLine();
-        return inspectPrice(text);
+        return parsePrice(text);
     }
 
-    public List<Integer> inspectWinningNumbers(String text) {
+    public List<Integer> parseWinningNumbers(String text) {
         String[] parts = text.split(",");
         List<Integer> numbers = new ArrayList<Integer>();
         for (String part : parts) {
-            numbers.add(parseInt(part));
+            int n = parseInt(part);
+            inspectNumberRange(n);
+            numbers.add(n);
         }
         return numbers;
     }
@@ -41,16 +53,18 @@ public class InputManager {
     public List<Integer> getWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String text = Console.readLine();
-        return inspectWinningNumbers(text);
+        return parseWinningNumbers(text);
     }
 
-    public int inspectBonusNumber(String text) {
-        return parseInt(text);
+    public int parseBonusNumber(String text) {
+        int n = parseInt(text);
+        inspectNumberRange(n);
+        return n;
     }
 
     public int getBonusNumber() {
         System.out.println("보너스 번호를 입력해 주세요.");
         String text = Console.readLine();
-        return inspectBonusNumber(text);
+        return parseBonusNumber(text);
     }
 }
