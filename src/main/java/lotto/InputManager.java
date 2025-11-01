@@ -2,6 +2,7 @@ package lotto;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InputManager {
     private int parseInt(String text) {
@@ -28,16 +29,16 @@ public class InputManager {
         return inspectPrice(text);
     }
 
-    public ArrayList<Integer> inspectWinningNumbers(String text) {
+    public List<Integer> inspectWinningNumbers(String text) {
         String[] parts = text.split(",");
-        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        List<Integer> numbers = new ArrayList<Integer>();
         for (String part : parts) {
             numbers.add(parseInt(part));
         }
         return numbers;
     }
 
-    public ArrayList<Integer> getWinningNumbers() {
+    public List<Integer> getWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String text = Console.readLine();
         return inspectWinningNumbers(text);
