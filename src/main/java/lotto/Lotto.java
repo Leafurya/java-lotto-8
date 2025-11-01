@@ -1,5 +1,6 @@
 package lotto;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,17 +22,22 @@ public class Lotto {
 
     // TODO: 추가 기능 구현
     private void sort() {
-        numbers.sort(null);
+//        numbers.sort(null);
+        Collections.sort(numbers);
     }
 
     public List<Integer> getNumbers() {
         return numbers;
     }
 
+    public String toString() {
+        return numbers.toString();
+    }
+
     public LottoRank compare(List<Integer> winningNumbers, int bonusNumber) {
         Set<Integer> sharedNumbers = new HashSet<>(numbers);
         sharedNumbers.retainAll(winningNumbers);
 
-        return LottoRank.valueOf(sharedNumbers.size(), winningNumbers.contains(bonusNumber));
+        return LottoRank.valueOf(sharedNumbers.size(), numbers.contains(bonusNumber));
     }
 }
